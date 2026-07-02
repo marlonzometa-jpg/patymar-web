@@ -4,107 +4,108 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Patymar — Arma tu pedido</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --verde:#1f7a4d; --verde-claro:#e8f5ec; --verde-osc:#0f4d2e;
-    --coral:#ff6b4a; --crema:#fbfaf6; --tinta:#1a2420; --gris:#7c8a83;
-    --linea:#e7ede9; --sombra:0 6px 24px rgba(15,77,46,.12);
+    --verde:#22593c; --verde-osc:#163d29; --verde-claro:#e7efe6;
+    --coral:#e8735a; --coral-claro:#fbe9e2;
+    --crema:#f5f0e3; --papel:#fffdf6; --tinta:#22312a; --gris:#7c8a80;
+    --linea:#e6e2d3; --sombra:0 8px 30px rgba(22,61,41,.13);
   }
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
-    background:#eef1ee;color:var(--tinta);line-height:1.4}
+  body{font-family:'Inter',-apple-system,sans-serif;background:#e6e3d8;color:var(--tinta);line-height:1.45}
+  .serif{font-family:'Fraunces',Georgia,serif}
   .phone{max-width:430px;margin:0 auto;min-height:100vh;background:var(--crema);
-    display:flex;flex-direction:column;position:relative;box-shadow:0 0 40px rgba(0,0,0,.08)}
-  header{background:linear-gradient(135deg,var(--verde),var(--verde-osc));color:#fff;
-    padding:16px 18px;position:sticky;top:0;z-index:20}
-  .brand{display:flex;align-items:center;gap:10px}
-  .logo{width:36px;height:36px;border-radius:50%;background:#fff;color:var(--verde);
-    display:grid;place-items:center;font-weight:800;font-size:18px}
-  .brand h1{font-size:18px;font-weight:800;letter-spacing:.3px}
-  .brand small{display:block;font-weight:500;opacity:.85;font-size:11px}
-  .steps{display:flex;gap:5px;margin-top:12px}
-  .steps i{height:4px;flex:1;background:rgba(255,255,255,.28);border-radius:3px;transition:.3s}
-  .steps i.on{background:#fff}
+    display:flex;flex-direction:column;position:relative;box-shadow:0 0 50px rgba(0,0,0,.1)}
+  header{background:var(--crema);padding:12px 18px;position:sticky;top:0;z-index:20;
+    border-bottom:1px solid var(--linea);display:flex;align-items:center;justify-content:space-between}
+  header img.wm{height:26px;display:block}
+  .steps{display:flex;gap:4px;width:120px}
+  .steps i{height:4px;flex:1;background:var(--linea);border-radius:3px;transition:.35s}
+  .steps i.on{background:var(--coral)}
   main{flex:1;padding:18px;padding-bottom:120px}
-  .q{font-size:21px;font-weight:800;margin-bottom:4px}
+  .fade{animation:fade .35s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .q{font-size:25px;font-weight:600;margin-bottom:4px;letter-spacing:-.02em}
   .sub{color:var(--gris);font-size:13px;margin-bottom:16px}
+  .hero{position:relative;border-radius:22px;overflow:hidden;height:220px;margin-bottom:20px;box-shadow:var(--sombra)}
+  .hero img{width:100%;height:100%;object-fit:cover;display:block}
+  .hero .ov{position:absolute;inset:0;background:linear-gradient(180deg,rgba(22,61,41,.15) 0%,rgba(22,61,41,.85) 100%)}
+  .hero .txt{position:absolute;left:18px;right:18px;bottom:16px;color:#fff}
+  .hero .txt h2{font-size:26px;font-weight:600;line-height:1.1;letter-spacing:-.02em}
+  .hero .txt p{font-size:13px;opacity:.92;margin-top:4px}
+  .hero .tag{display:inline-block;background:var(--coral);color:#fff;font-size:10px;font-weight:800;
+    padding:4px 10px;border-radius:20px;letter-spacing:.05em;text-transform:uppercase;margin-bottom:8px}
   .choices{display:grid;gap:12px}
-  .choice{background:#fff;border:2px solid var(--linea);border-radius:18px;padding:18px;
+  .choice{background:var(--papel);border:1.5px solid var(--linea);border-radius:18px;padding:16px;
     display:flex;align-items:center;gap:14px;cursor:pointer;transition:.15s;box-shadow:var(--sombra)}
   .choice:active{transform:scale(.98)}
   .choice.sel{border-color:var(--verde);background:var(--verde-claro)}
-  .choice .emo{font-size:30px}
-  .choice b{font-size:16px}
+  .choice .emo{font-size:28px;width:34px;text-align:center}
+  .choice b{font-size:16px;font-weight:700}
   .choice p{font-size:12px;color:var(--gris)}
-  .badge{font-size:10px;background:#fff2ec;color:var(--coral);padding:3px 8px;border-radius:20px;
-    font-weight:700;margin-left:auto;white-space:nowrap}
-  .prod{background:#fff;border-radius:18px;padding:14px;margin-bottom:12px;box-shadow:var(--sombra);
-    border:1px solid var(--linea)}
-  .prod .top{display:flex;gap:12px}
-  .thumb{width:64px;height:64px;border-radius:14px;flex:none;display:grid;place-items:center;
-    font-size:30px;background:var(--verde-claro)}
-  .prod h3{font-size:15px;font-weight:800}
-  .prod .ingr{font-size:11.5px;color:var(--gris);margin:3px 0 7px}
+  .badge{font-size:9.5px;background:var(--coral-claro);color:var(--coral);padding:4px 9px;border-radius:20px;
+    font-weight:800;margin-left:auto;white-space:nowrap;text-transform:uppercase;letter-spacing:.03em}
+  .badge.dia{background:var(--verde-claro);color:var(--verde)}
+  .pill .rec{font-size:11px}
+  .prod{background:var(--papel);border-radius:20px;padding:12px;margin-bottom:14px;box-shadow:var(--sombra);
+    border:1px solid var(--linea);overflow:hidden}
+  .prod .top{display:flex;gap:13px}
+  .thumb{width:84px;height:84px;border-radius:16px;flex:none;object-fit:cover;background:var(--verde-claro)}
+  .prod h3{font-size:16px;font-weight:700;letter-spacing:-.01em}
+  .prod .ingr{font-size:11px;color:var(--gris);margin:3px 0 7px;line-height:1.35}
   .benes{display:flex;flex-wrap:wrap;gap:5px}
-  .bene{font-size:10px;font-weight:700;color:var(--verde-osc);background:var(--verde-claro);
-    padding:3px 8px;border-radius:20px}
-  .bene.omega{color:#1f5b7a;background:#e6f0f6}
-  .sizes{display:flex;gap:8px;margin-top:10px}
-  .size{flex:1;border:1.5px solid var(--linea);border-radius:12px;padding:8px;text-align:center;
-    cursor:pointer;font-size:12px;transition:.15s}
+  .bene{font-size:9.5px;font-weight:700;color:var(--verde);background:var(--verde-claro);padding:3px 8px;border-radius:20px}
+  .bene.omega{color:#20627e;background:#e3eef3}
+  .sizes{display:flex;gap:8px;margin-top:11px}
+  .size{flex:1;border:1.5px solid var(--linea);border-radius:12px;padding:8px;text-align:center;cursor:pointer;font-size:12px;transition:.15s}
   .size.sel{border-color:var(--verde);background:var(--verde-claro);font-weight:800}
   .size b{display:block;font-size:14px}.size span{color:var(--gris)}
-  .add{margin-top:10px;width:100%;background:var(--verde);color:#fff;border:none;border-radius:12px;
-    padding:11px;font-size:14px;font-weight:800;cursor:pointer}
+  .add{margin-top:11px;width:100%;background:var(--verde);color:#fff;border:none;border-radius:13px;
+    padding:12px;font-size:14px;font-weight:700;cursor:pointer;transition:.15s;font-family:inherit}
   .add:active{transform:scale(.98)}
-  .prod .price{font-weight:800;font-size:15px;color:var(--verde-osc)}
-  .lbl{font-size:12px;font-weight:800;margin:16px 0 7px;color:var(--verde-osc)}
-  .lbl .opt{color:var(--gris);font-weight:600}
+  .prod .price{font-family:'Fraunces',serif;font-weight:600;font-size:17px;color:var(--verde-osc)}
+  .lbl{font-size:12px;font-weight:800;margin:16px 0 8px;color:var(--verde-osc)}
+  .lbl .opt{color:var(--gris);font-weight:500}
   .pills{display:flex;flex-wrap:wrap;gap:7px}
-  .pill{border:1.5px solid var(--linea);background:#fff;border-radius:20px;padding:7px 13px;
-    font-size:12.5px;cursor:pointer;transition:.15s}
+  .pill{border:1.5px solid var(--linea);background:var(--papel);border-radius:20px;padding:8px 14px;font-size:12.5px;cursor:pointer;transition:.15s}
   .pill.sel{border-color:var(--verde);background:var(--verde);color:#fff;font-weight:700}
   .pill .pr{opacity:.7;font-size:11px}
-  .cart-line{display:flex;align-items:center;gap:10px;background:#fff;border-radius:14px;
-    padding:12px;margin-bottom:10px;box-shadow:var(--sombra)}
-  .cart-line .info{flex:1}.cart-line b{font-size:14px}
+  .cart-line{display:flex;align-items:center;gap:12px;background:var(--papel);border-radius:16px;padding:10px;margin-bottom:10px;box-shadow:var(--sombra)}
+  .cart-line img{width:52px;height:52px;border-radius:12px;object-fit:cover;flex:none}
+  .cart-line .info{flex:1}.cart-line b{font-size:14px;font-weight:700}
   .cart-line small{color:var(--gris);font-size:11px;display:block}
   .qty{display:flex;align-items:center;gap:9px}
-  .qty button{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--verde);
-    background:#fff;color:var(--verde);font-size:16px;font-weight:800;cursor:pointer;line-height:1}
-  .price{font-weight:800;font-size:14px;min-width:52px;text-align:right}
+  .qty button{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--verde);background:var(--papel);color:var(--verde);font-size:16px;font-weight:800;cursor:pointer;line-height:1}
+  .price{font-family:'Fraunces',serif;font-weight:600;font-size:15px;min-width:54px;text-align:right}
   .empty{text-align:center;color:var(--gris);padding:40px 0;font-size:14px}
   .field{margin-bottom:14px}
   .field label{font-size:12px;font-weight:800;display:block;margin-bottom:6px;color:var(--verde-osc)}
-  .field input,.field select{width:100%;border:1.5px solid var(--linea);border-radius:12px;
-    padding:12px;font-size:14px;font-family:inherit;background:#fff}
+  .field input,.field select{width:100%;border:1.5px solid var(--linea);border-radius:12px;padding:12px;font-size:14px;font-family:inherit;background:var(--papel)}
   .field input:focus,.field select:focus{outline:none;border-color:var(--verde)}
   .note{font-size:11px;color:var(--gris);margin-top:4px}
-  .geo{width:100%;border:1.5px dashed var(--verde);background:var(--verde-claro);color:var(--verde-osc);
-    border-radius:12px;padding:12px;font-size:13px;font-weight:700;cursor:pointer;margin-bottom:8px}
+  .geo{width:100%;border:1.5px dashed var(--verde);background:var(--verde-claro);color:var(--verde-osc);border-radius:12px;padding:12px;font-size:13px;font-weight:700;cursor:pointer;margin-bottom:8px;font-family:inherit}
   .geo.ok{border-style:solid;background:var(--verde);color:#fff}
-  .sumbox{background:#fff;border-radius:16px;padding:16px;box-shadow:var(--sombra);margin-bottom:14px}
-  .sumrow{display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-bottom:1px dashed var(--linea)}
+  .sumbox{background:var(--papel);border-radius:18px;padding:16px;box-shadow:var(--sombra);margin-bottom:14px}
+  .sumrow{display:flex;justify-content:space-between;font-size:13px;padding:7px 0;border-bottom:1px dashed var(--linea)}
   .sumrow:last-child{border:none}
-  .sumtot{display:flex;justify-content:space-between;font-size:18px;font-weight:800;margin-top:8px}
-  .bar{position:fixed;bottom:0;left:0;right:0;max-width:430px;margin:0 auto;background:#fff;
-    border-top:1px solid var(--linea);padding:12px 16px;display:flex;gap:12px;align-items:center;z-index:30}
-  .bar .tot{flex:none}.bar .tot small{font-size:10px;color:var(--gris);display:block}.bar .tot b{font-size:19px}
-  .cta{flex:1;background:var(--verde);color:#fff;border:none;border-radius:14px;padding:14px;
-    font-size:15px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
-  .cta:disabled{background:#c7d3cc}
+  .sumtot{display:flex;justify-content:space-between;font-size:20px;font-weight:600;margin-top:8px;font-family:'Fraunces',serif}
+  .bar{position:fixed;bottom:0;left:0;right:0;max-width:430px;margin:0 auto;background:var(--papel);border-top:1px solid var(--linea);padding:12px 16px;display:flex;gap:12px;align-items:center;z-index:30}
+  .bar .tot{flex:none}.bar .tot small{font-size:10px;color:var(--gris);display:block}
+  .bar .tot b{font-size:20px;font-family:'Fraunces',serif;font-weight:600}
+  .cta{flex:1;background:var(--verde);color:#fff;border:none;border-radius:14px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit}
+  .cta:disabled{background:#bcc7bf}
   .cta.wa{background:#25d366}
-  .back{background:none;border:none;color:var(--verde);font-weight:700;font-size:13px;cursor:pointer;padding:6px 2px;margin-bottom:6px}
-  .disclaimer{font-size:10.5px;color:var(--gris);text-align:center;padding:10px 20px 90px}
+  .back{background:none;border:none;color:var(--verde);font-weight:700;font-size:13px;cursor:pointer;padding:6px 2px;margin-bottom:8px}
+  .disclaimer{font-size:10.5px;color:var(--gris);text-align:center;padding:12px 20px 90px}
 </style>
 </head>
 <body>
 <div class="phone">
   <header>
-    <div class="brand">
-      <div class="logo">P</div>
-      <div><h1>Patymar</h1><small>Fresco de la costa · Arma tu pedido</small></div>
-    </div>
+    <img class="wm" src="img/wordmark.svg" alt="Patymar">
     <div class="steps" id="steps"><i class="on"></i><i></i><i></i><i></i><i></i></div>
   </header>
   <main id="app"></main>
@@ -115,59 +116,52 @@
 </div>
 
 <script>
-/* ================= DATOS (menú real del catálogo Patymar) ================= */
-/* beneficios: por confirmar con Patricia — protein sí es real del catálogo */
 const MENU = {
   ensaladas: [
-    {id:'cesar', nombre:'César con Pollo', emo:'🥗', aderezo:'César',
-     ingr:'Lechugas frescas, pollo a la plancha, crutones y parmesano',
-     benes:['💪 39g proteína','🌿 Fibra','🅰️ Vitamina A'], precio:{s:4.25,g:6.50}},
-    {id:'tropical', nombre:'Tropical con Pollo', emo:'🥗', aderezo:'Vinagreta',
-     ingr:'Pollo, piña, maní, zanahoria, repollo morado, aguacate, brócoli, tomate',
-     benes:['💪 Proteína','🍊 Vitamina C','🌿 Fibra'], precio:{s:4.25,g:6.75}},
-    {id:'quinoa', nombre:'Proteica con Quinoa', emo:'🥗', aderezo:'Vinagreta',
-     ingr:'Pollo, huevo, quinoa, espinaca, repollo morado, aguacate, tomate, brócoli',
-     benes:['💪 Proteína completa','🌿 Fibra','⚙️ Hierro'], precio:{s:4.25,g:6.75}},
-    {id:'garbanzo', nombre:'Proteica con Garbanzo', emo:'🥗', aderezo:'Vinagreta',
-     ingr:'Pollo, huevo, garbanzo, espinaca, repollo morado, aguacate, tomate, brócoli',
-     benes:['💪 Proteína','🌿 Fibra','⚙️ Hierro'], precio:{s:4.25,g:6.75}},
-    {id:'atun', nombre:'Ensalada de Atún', emo:'🥗', aderezo:'Cítrico',
-     ingr:'Atún, huevo, maní, pepino, tomate, aguacate, elote, repollo morado',
-     benes:['💪 29g proteína','🐟 Omega-3','☀️ Vitamina D'], precio:{s:3.75,g:6.50}},
-    {id:'camaronera', nombre:'Camaronera', emo:'🦐', aderezo:'Cítrico',
-     ingr:'Camarones, elote, zanahoria, pepino, tomate, aguacate, repollo morado',
-     benes:['💪 Proteína magra','🐟 Omega-3'], precio:{s:4.75,g:7.75}},
+    {id:'cesar', nombre:'César con Pollo', img:'img/cesar.jpg', aderezos:['César'],
+     ingr:'Base César, pollo, crutones, parmesano',
+     prot:{s:20,g:39}, benes:['🌿 Fibra','🅰️ Vitamina A'], precio:{s:4.25,g:6.50}},
+    {id:'tropical', nombre:'Tropical con Pollo', img:'img/tropical.jpg', aderezos:['Cilantro Limón','Miel Mostaza'],
+     ingr:'Base, pollo, piña, maní, zanahoria, aguacate, brócoli, tomate, almendras fileteadas (+repollo adorno)',
+     prot:{s:18,g:35}, benes:['🍊 Vitamina C','🌿 Fibra'], precio:{s:4.25,g:6.75}},
+    {id:'quinoa', nombre:'Proteica con Quinoa', img:'img/quinoa.jpg', aderezos:['Ajo Parmesano','Chipotle'],
+     ingr:'Base, pollo, huevo, quinoa, aguacate, tomate, brócoli, pepitoria (+repollo adorno, +espinaca)',
+     prot:{s:21,g:42}, benes:['🌿 Fibra','⚙️ Hierro'], precio:{s:4.25,g:6.75}},
+    {id:'garbanzo', nombre:'Proteica con Garbanzo', img:'img/garbanzo.jpg', aderezos:['Ajo Parmesano','Chipotle'],
+     ingr:'Base, pollo, huevo, garbanzo, aguacate, tomate, brócoli, pepitoria (+repollo adorno, +espinaca)',
+     prot:{s:24,g:47}, benes:['🌿 Fibra','⚙️ Hierro'], precio:{s:4.25,g:6.75}},
+    {id:'atun', nombre:'Ensalada de Atún', img:'img/atun.jpg', aderezos:['Cilantro Limón'],
+     ingr:'Base, atún, huevo, maní, tomate, pepino, aguacate, elote, pepitoria (+repollo adorno)',
+     prot:{s:15,g:30}, benes:['🐟 Omega-3','☀️ Vitamina D'], precio:{s:3.75,g:6.50}},
+    {id:'camaronera', nombre:'Camaronera', img:'img/camaronera.jpg', aderezos:['Cilantro Limón','Chipotle','Ajo Parmesano'],
+     ingr:'Base, camarón, elote, zanahoria, pepino, tomate, aguacate, almendras fileteadas (+repollo adorno)',
+     prot:{s:18,g:35}, benes:['🐟 Omega-3','🅰️ Vitamina A'], precio:{s:4.75,g:7.75}},
   ],
   cocteles: [
-    {id:'coctel', nombre:'Cóctel de Camarón', emo:'🦐',
+    {id:'coctel', nombre:'Cóctel de Camarón', img:'img/coctel.jpg', prot:31,
      ingr:'Camarón fresco en salsa rosada, aguacate, el toque de la casa',
-     benes:['💪 31g proteína','🐟 Omega-3'], precio:6.50},
-    {id:'ceviche', nombre:'Ceviche de Camarón', emo:'🍤',
+     benes:['🐟 Omega-3'], precio:6.50},
+    {id:'ceviche', nombre:'Ceviche de Camarón', img:'img/ceviche.jpg', prot:31,
      ingr:'Camarón curado en limón, fresco y cítrico',
-     benes:['💪 31g proteína','🐟 Omega-3'], precio:6.50},
+     benes:['🐟 Omega-3'], precio:6.50},
   ]
 };
-const ADEREZOS = ['César','Ranch','Vinagreta','Mostaza-miel','Cítrico','Sin aderezo']; // por confirmar
-const EXTRAS_ENS = [{n:'Pollo extra',p:2.00},{n:'Camarón extra',p:2.50},{n:'Aguacate',p:1.00},{n:'Doble proteína',p:2.50}]; // por confirmar
-const EXTRAS_COC = [{n:'Extra limón',p:0.50},{n:'Extra aguacate',p:1.00},{n:'Extra camarón',p:2.50},{n:'Galletas/tostadas',p:1.00},{n:'Curtido picante',p:0.50}]; // por confirmar
-/* Delivery: $2 cubre la mayor parte de Santa Ana ciudad. Suburbios = más (Marlon confirma). */
-const ZONAS = [
-  {n:'Santa Ana centro', f:2}, {n:'Colonia IVU', f:2}, {n:'San Miguelito', f:2},
-  {n:'Metrópolis / cercano', f:2}, {n:'Suburbios / afueras', f:null} // null = te confirmamos
-];
-const WA_MAMA = '50360863089';                 // WhatsApp Patymar (Patricia)
+const ADEREZOS = ['César','Ajo Parmesano','Chipotle','Cilantro Limón','Miel Mostaza','Sin aderezo'];
+const EXTRAS_ENS = [{n:'Pollo extra',p:2.00},{n:'Camarón extra',p:2.50},{n:'Aguacate',p:1.00},{n:'Doble proteína',p:2.50}];
+const EXTRAS_COC = [{n:'Extra limón',p:0.50},{n:'Extra aguacate',p:1.00},{n:'Extra camarón',p:2.50},{n:'Galletas/tostadas',p:1.00},{n:'Curtido picante',p:0.50}];
+const ZONAS = [{n:'Santa Ana centro',f:2},{n:'Colonia IVU',f:2},{n:'San Miguelito',f:2},{n:'Metrópolis / cercano',f:2},{n:'Suburbios / afueras',f:null}];
+const WA_MAMA = '50360863089';
 const DIR_RECOGER = 'Santa Ana — (dirección de recoger por confirmar)';
 
-/* ================= ESTADO ================= */
 let step=0, quiere=null, cart=[], editing=null, sizeSel={};
-let entrega={modo:null, zona:'', fee:0, dir:'', geo:null, nombre:'', hora:''};
-
-const app=document.getElementById('app'), bar=document.getElementById('bar');
-const barBtn=document.getElementById('barBtn'), barTot=document.getElementById('barTot'), stepsEl=document.getElementById('steps');
+let entrega={modo:null,zona:'',fee:0,dir:'',geo:null,nombre:'',hora:''};
+const app=document.getElementById('app'),bar=document.getElementById('bar');
+const barBtn=document.getElementById('barBtn'),barTot=document.getElementById('barTot'),stepsEl=document.getElementById('steps');
 const money=n=>'$'+Number(n).toFixed(2);
 const subtotal=()=>cart.reduce((s,i)=>s+i.precioU*i.qty,0);
-const deliveryFee=()=> (entrega.modo==='Domicilio' && entrega.fee!=null) ? entrega.fee : 0;
+const deliveryFee=()=>(entrega.modo==='Domicilio'&&entrega.fee!=null)?entrega.fee:0;
 const total=()=>subtotal()+deliveryFee();
+const imgOf=n=>{const a=[...MENU.ensaladas,...MENU.cocteles].find(x=>x.nombre===n);return a?a.img:'';};
 
 function setSteps(){[...stepsEl.children].forEach((el,i)=>el.classList.toggle('on',i<=step));}
 function updateBar(){
@@ -178,45 +172,55 @@ function updateBar(){
   else if(step===3){barBtn.textContent='Revisar pedido';
     barBtn.disabled=!(entrega.modo&&entrega.nombre&&(entrega.modo==='Recoger'||(entrega.zona&&(entrega.dir||entrega.geo))));}
 }
+function anim(){app.classList.remove('fade');void app.offsetWidth;app.classList.add('fade');}
 function render(){setSteps();
   ({0:renderAntojo,1:renderMenu,2:renderCarrito,3:renderEntrega,4:renderConfirmar}[step])();
-  updateBar();window.scrollTo(0,0);}
+  anim();updateBar();window.scrollTo(0,0);}
 
-/* ---------- Paso 0: antojo ---------- */
 function renderAntojo(){
-  const d=new Date().getDay(); const finde=(d===0||d===6);
-  app.innerHTML=`<div class="q">¿Qué se te antoja hoy? 😋</div>
-   <div class="sub">Elegí y armamos tu pedido en 30 segundos.</div>
+  const d=new Date().getDay();const finde=(d===0||d===6);
+  app.innerHTML=`
+   <div class="hero">
+     <img src="img/hero.jpg" alt="">
+     <div class="ov"></div>
+     <div class="txt"><span class="tag">Fresco de la costa</span>
+       <h2 class="serif">Comé rico,<br>comé fresco.</h2>
+       <p>Ensaladas y cócteles hechos por Patricia 🌿</p></div>
+   </div>
+   <div class="q serif">¿Qué se te antoja hoy?</div>
+   <div class="sub">Armamos tu pedido en 30 segundos.</div>
    <div class="choices">
      <div class="choice" onclick="pickAntojo('ensaladas')"><span class="emo">🥗</span>
-       <div><b>Ensaladas</b><p>Frescas y con proteína · Lun a Vie</p></div></div>
+       <div><b>Ensaladas</b><p>Frescas y con proteína</p></div>
+       <span class="badge dia">Lun a Vie</span></div>
      <div class="choice" onclick="pickAntojo('cocteles')"><span class="emo">🦐</span>
-       <div><b>Cócteles de mar</b><p>Camarón y ceviche</p></div>
-       <span class="badge">${finde?'Hoy sí ✓':'Sáb-Dom · 2h aviso'}</span></div>
+       <div><b>Cócteles</b><p>Camarón y ceviche · o L-V avisando 2h</p></div>
+       <span class="badge dia">Sáb y Dom</span></div>
      <div class="choice" onclick="pickAntojo('ambos')"><span class="emo">🥗🦐</span>
        <div><b>Los dos</b><p>Ensalada + cóctel</p></div></div>
    </div>`;
 }
 function pickAntojo(v){quiere=v;step=1;render();}
 
-/* ---------- Paso 1: menú ---------- */
 function renderMenu(){
   let h=`<button class="back" onclick="goStep(0)">‹ Cambiar</button>`;
   if(quiere==='ensaladas'||quiere==='ambos'){
-    h+=`<div class="q">Ensaladas 🥗</div><div class="sub">Vienen con su aderezo de la casa (podés cambiarlo).</div>`;
+    h+=`<div class="q serif">Ensaladas</div><div class="sub">Vienen con su aderezo de la casa (podés cambiarlo).</div>`;
     MENU.ensaladas.forEach(p=>h+=cardEns(p));
   }
   if(quiere==='cocteles'||quiere==='ambos'){
-    h+=`<div class="q" style="margin-top:14px">Cócteles 🦐</div><div class="sub">Personalizá tus extras.</div>`;
+    h+=`<div class="q serif" style="margin-top:16px">Cócteles</div><div class="sub">Sáb y Dom, o de Lun a Vie avisando con 2 horas. Personalizá tus extras.</div>`;
     MENU.cocteles.forEach(p=>h+=cardCoc(p));
   }
   app.innerHTML=h;
 }
-function benesHtml(arr){return `<div class="benes">`+arr.map(b=>`<span class="bene${b.indexOf('Omega')>-1?' omega':''}">${b}</span>`).join('')+`</div>`;}
+function chip(b){return `<span class="bene${b.indexOf('Omega')>-1?' omega':''}">${b}</span>`;}
+function benesHtml(a){return `<div class="benes">`+a.map(chip).join('')+`</div>`;}
 function cardEns(p){
   return `<div class="prod">
-    <div class="top"><div class="thumb">${p.emo}</div>
-      <div><h3>${p.nombre}</h3><div class="ingr">${p.ingr}</div>${benesHtml(p.benes)}</div></div>
+    <div class="top"><img class="thumb" src="${p.img}" alt="${p.nombre}">
+      <div><h3>${p.nombre}</h3><div class="ingr">${p.ingr}</div>
+        <div class="benes"><span class="bene" id="prot-${p.id}">💪 ${p.prot[sizeSel[p.id]||'s']}g proteína</span>${p.benes.map(chip).join('')}</div></div></div>
     <div class="sizes">
       <div class="size sel" onclick="pickSize('${p.id}','s',this)"><b>16oz</b><span>${money(p.precio.s)}</span></div>
       <div class="size" onclick="pickSize('${p.id}','g',this)"><b>32oz</b><span>${money(p.precio.g)}</span></div>
@@ -226,18 +230,18 @@ function cardEns(p){
 }
 function cardCoc(p){
   return `<div class="prod">
-    <div class="top"><div class="thumb">${p.emo}</div>
-      <div><h3>${p.nombre}</h3><div class="ingr">${p.ingr}</div>${benesHtml(p.benes)}</div>
+    <div class="top"><img class="thumb" src="${p.img}" alt="${p.nombre}">
+      <div style="flex:1"><h3>${p.nombre}</h3><div class="ingr">${p.ingr}</div>
+        <div class="benes"><span class="bene">💪 ${p.prot}g proteína</span>${p.benes.map(chip).join('')}</div></div>
       <div class="price">${money(p.precio)}</div></div>
     <button class="add" onclick="openCustom('coc','${p.id}')">Personalizar y agregar +</button>
   </div>`;
 }
-function pickSize(id,t,el){sizeSel[id]=t;[...el.parentNode.children].forEach(c=>c.classList.remove('sel'));el.classList.add('sel');}
+function pickSize(id,t,el){sizeSel[id]=t;[...el.parentNode.children].forEach(c=>c.classList.remove('sel'));el.classList.add('sel');
+  const pc=document.getElementById('prot-'+id);if(pc){const p=MENU.ensaladas.find(x=>x.id===id);pc.textContent='💪 '+p.prot[t]+'g proteína';}}
 
-/* ---------- Personalizar (ensalada = aderezo+extras · cóctel = extras) ---------- */
 function openCustom(tipo,id){
-  if(tipo==='ens'){const p=MENU.ensaladas.find(x=>x.id===id);
-    editing={tipo,p,t:sizeSel[id]||'s',aderezo:p.aderezo,extras:[]};}
+  if(tipo==='ens'){const p=MENU.ensaladas.find(x=>x.id===id);editing={tipo,p,t:sizeSel[id]||'s',aderezo:p.aderezos[0],extras:[]};}
   else{const p=MENU.cocteles.find(x=>x.id===id);editing={tipo,p,t:null,aderezo:null,extras:[]};}
   renderCustom();
 }
@@ -246,16 +250,19 @@ function renderCustom(){
   const base=tipo==='ens'?p.precio[t]:p.precio;
   const ex=extras.reduce((s,e)=>s+e.p,0);
   let h=`<button class="back" onclick="cancelCustom()">‹ Volver al menú</button>
-    <div class="q">${p.nombre} ${tipo==='ens'?'<span style="font-size:14px;color:var(--gris)">'+(t==='s'?'16oz':'32oz')+'</span>':''}</div>
+    <img src="${p.img}" style="width:100%;height:160px;object-fit:cover;border-radius:18px;margin-bottom:12px;box-shadow:var(--sombra)">
+    <div class="q serif" style="font-size:21px">${p.nombre} ${tipo==='ens'?'<span style="font-size:14px;color:var(--gris)">'+(t==='s'?'16oz':'32oz')+'</span>':''}</div>
     <div class="sub">${p.ingr}</div>`;
-  if(tipo==='ens'){h+=`<div class="lbl">Aderezo <span class="opt">· de la casa: ${p.aderezo}</span></div><div class="pills" id="ader"></div>`;}
+  if(tipo==='ens')h+=`<div class="lbl">Aderezo <span class="opt">· ⭐ recomendado: ${p.aderezos.join(' o ')}</span></div><div class="pills" id="ader"></div>`;
   h+=`<div class="lbl">Extras <span class="opt">· opcional</span></div><div class="pills" id="ext"></div>
     <button class="add" style="margin-top:22px" onclick="confirmCustom()">Agregar al pedido · ${money(base+ex)}</button>`;
-  app.innerHTML=h;
+  app.innerHTML=h;anim();
   if(tipo==='ens'){const A=document.getElementById('ader');
-    ADEREZOS.forEach(a=>{const el=document.createElement('div');el.className='pill'+(a===aderezo?' sel':'');
-      el.textContent=a;el.onclick=()=>{editing.aderezo=a;renderCustom();};A.appendChild(el);});}
-  const E=document.getElementById('ext'); const list=tipo==='ens'?EXTRAS_ENS:EXTRAS_COC;
+    ADEREZOS.forEach(a=>{const rec=editing.p.aderezos.includes(a);const el=document.createElement('div');
+      el.className='pill'+(a===aderezo?' sel':'');
+      el.innerHTML=a+(rec?' <span class="rec">⭐</span>':'');
+      el.onclick=()=>{editing.aderezo=a;renderCustom();};A.appendChild(el);});}
+  const E=document.getElementById('ext');const list=tipo==='ens'?EXTRAS_ENS:EXTRAS_COC;
   list.forEach(e=>{const on=extras.find(x=>x.n===e.n);const el=document.createElement('div');
     el.className='pill'+(on?' sel':'');el.innerHTML=`${e.n} <span class="pr">+${money(e.p)}</span>`;
     el.onclick=()=>{if(on)editing.extras=extras.filter(x=>x.n!==e.n);else editing.extras.push(e);renderCustom();};
@@ -264,52 +271,46 @@ function renderCustom(){
 }
 function cancelCustom(){editing=null;render();}
 function confirmCustom(){
-  const {tipo,p,t,aderezo,extras}=editing;
-  const base=tipo==='ens'?p.precio[t]:p.precio;
+  const {tipo,p,t,aderezo,extras}=editing;const base=tipo==='ens'?p.precio[t]:p.precio;
   cart.push({key:Date.now(),tipo,nombre:p.nombre,tam:tipo==='ens'?(t==='s'?'16oz':'32oz'):'',
     aderezo:aderezo||'',extras:extras.map(e=>e.n),precioU:base+extras.reduce((s,e)=>s+e.p,0),qty:1});
   editing=null;step=1;render();
 }
 
-/* ---------- Paso 2: carrito ---------- */
 function renderCarrito(){
-  let h=`<button class="back" onclick="goStep(1)">‹ Seguir agregando</button><div class="q">Tu pedido 🛒</div><div class="sub">Revisá antes de continuar.</div>`;
+  let h=`<button class="back" onclick="goStep(1)">‹ Seguir agregando</button><div class="q serif">Tu pedido 🛒</div><div class="sub">Revisá antes de continuar.</div>`;
   if(!cart.length){h+=`<div class="empty">Aún no agregás nada 🥗</div>`;app.innerHTML=h;return;}
   cart.forEach(i=>{const det=[i.tam,i.aderezo,...i.extras].filter(Boolean).join(' · ');
-    h+=`<div class="cart-line"><div class="info"><b>${i.nombre}</b><small>${det||'&nbsp;'}</small></div>
+    h+=`<div class="cart-line"><img src="${imgOf(i.nombre)}" alt=""><div class="info"><b>${i.nombre}</b><small>${det||'&nbsp;'}</small></div>
       <div class="qty"><button onclick="chg(${i.key},-1)">–</button><span>${i.qty}</span><button onclick="chg(${i.key},1)">+</button></div>
       <div class="price">${money(i.precioU*i.qty)}</div></div>`;});
   app.innerHTML=h;
 }
 function chg(k,d){const i=cart.find(x=>x.key===k);if(!i)return;i.qty+=d;if(i.qty<=0)cart=cart.filter(x=>x.key!==k);renderCarrito();updateBar();}
 
-/* ---------- Paso 3: entrega ---------- */
 function renderEntrega(){
   app.innerHTML=`<button class="back" onclick="goStep(2)">‹ Volver</button>
-    <div class="q">¿Cómo lo querés? 🛵</div>
+    <div class="q serif">¿Cómo lo querés? 🛵</div>
     <div class="choices" style="margin-bottom:16px">
       <div class="choice ${entrega.modo==='Domicilio'?'sel':''}" onclick="setModo('Domicilio')">
         <span class="emo">🛵</span><div><b>A domicilio</b><p>Desde $2 en Santa Ana ciudad</p></div></div>
       <div class="choice ${entrega.modo==='Recoger'?'sel':''}" onclick="setModo('Recoger')">
         <span class="emo">🏠</span><div><b>Paso a recoger</b><p>Sin costo de envío</p></div></div>
-    </div>
-    <div id="dyn"></div>
+    </div><div id="dyn"></div>
     <div class="field"><label>Tu nombre</label><input value="${entrega.nombre}" placeholder="Ej. Marlon" oninput="entrega.nombre=this.value;updateBar()"></div>
     <div class="field"><label>Hora deseada (opcional)</label><input value="${entrega.hora}" placeholder="Ej. 12:30 pm" oninput="entrega.hora=this.value"></div>`;
   if(entrega.modo==='Domicilio')renderDom();
-  else if(entrega.modo==='Recoger')document.getElementById('dyn').innerHTML=
-    `<div class="sumbox" style="font-size:13px">🏠 <b>Recogés en:</b><br>${DIR_RECOGER}</div>`;
+  else if(entrega.modo==='Recoger')document.getElementById('dyn').innerHTML=`<div class="sumbox" style="font-size:13px">🏠 <b>Recogés en:</b><br>${DIR_RECOGER}</div>`;
 }
 function setModo(m){entrega.modo=m;if(m==='Recoger'){entrega.zona='';entrega.fee=0;}renderEntrega();updateBar();}
 function renderDom(){
   const opts=ZONAS.map(z=>`<option value="${z.n}" ${entrega.zona===z.n?'selected':''}>${z.n}${z.f!=null?' — '+money(z.f):' — te confirmamos'}</option>`).join('');
   document.getElementById('dyn').innerHTML=`
-    <div class="field"><label>Zona</label><select onchange="setZona(this.value)">
-      <option value="">Elegí tu zona…</option>${opts}</select>
-      <div class="note">La mayor parte de Santa Ana ciudad es $2. Afueras/suburbios te confirmamos el costo.</div></div>
+    <div class="field"><label>Zona</label><select onchange="setZona(this.value)"><option value="">Elegí tu zona…</option>${opts}</select>
+      <div class="note">La mayor parte de Santa Ana ciudad es $2. Afueras/suburbios te confirmamos.</div></div>
     <button class="geo ${entrega.geo?'ok':''}" onclick="capturarUbic()">${entrega.geo?'✓ Ubicación exacta guardada':'📍 Usar mi ubicación exacta (Google Maps)'}</button>
     <div class="field"><label>Dirección / referencia</label>
-      <input value="${entrega.dir}" placeholder="Calle, casa, color de portón, punto de referencia" oninput="entrega.dir=this.value;updateBar()">
+      <input value="${entrega.dir}" placeholder="Calle, casa, color de portón, referencia" oninput="entrega.dir=this.value;updateBar()">
       <div class="note">La ubicación y dirección se le pasan al motorista.</div></div>`;
 }
 function setZona(v){entrega.zona=v;const z=ZONAS.find(x=>x.n===v);entrega.fee=z?z.f:0;renderDom();updateBar();}
@@ -317,13 +318,11 @@ function capturarUbic(){
   if(!navigator.geolocation){alert('Tu navegador no permite ubicación. Escribí la dirección.');return;}
   navigator.geolocation.getCurrentPosition(
     pos=>{entrega.geo={lat:pos.coords.latitude,lng:pos.coords.longitude};renderDom();updateBar();},
-    ()=>{alert('No pudimos obtener tu ubicación. Escribí la dirección y referencia.');}
-  );
+    ()=>{alert('No pudimos obtener tu ubicación. Escribí la dirección.');});
 }
 
-/* ---------- Paso 4: confirmar ---------- */
 function renderConfirmar(){
-  let h=`<button class="back" onclick="goStep(3)">‹ Volver</button><div class="q">Confirmá tu pedido ✅</div>
+  let h=`<button class="back" onclick="goStep(3)">‹ Volver</button><div class="q serif">Confirmá tu pedido ✅</div>
     <div class="sub">Al enviar se abre tu WhatsApp con todo escrito para Patymar.</div><div class="sumbox">`;
   cart.forEach(i=>{const det=[i.tam,i.aderezo,...i.extras].filter(Boolean).join(' · ');
     h+=`<div class="sumrow"><span>${i.qty}× ${i.nombre}${det?'<br><small style="color:var(--gris)">'+det+'</small>':''}</span><b>${money(i.precioU*i.qty)}</b></div>`;});
@@ -336,15 +335,14 @@ function renderConfirmar(){
   else h+=`<br>Recoger en: ${DIR_RECOGER}`;
   h+=`<br>${entrega.nombre}${entrega.hora?' · '+entrega.hora:''}</div>`;
   h+=`<button class="cta wa" style="width:100%" onclick="enviar()">🟢 Enviar pedido por WhatsApp</button>
-    <div class="disclaimer">Prototipo Patymar. El mensaje se arma solo y tu mamá lo recibe en su WhatsApp. En la versión final el pedido también se guarda solo en Airtable. (Número, aderezos, extras, zonas y beneficios: por confirmar.)</div>`;
+    <div class="disclaimer">El mensaje se arma solo y Patricia lo recibe en su WhatsApp. (Número, aderezos, extras y zonas: por confirmar.)</div>`;
   app.innerHTML=h;bar.style.display='none';
 }
 function enviar(){
   let t=`¡Hola Patymar! 🥗 Quiero hacer un pedido:%0A`;
   cart.forEach(i=>{const det=[i.tam,i.aderezo,...i.extras].filter(Boolean).join(', ');
     t+=`• ${i.qty}× ${i.nombre}${det?' ('+det+')':''} — ${money(i.precioU*i.qty)}%0A`;});
-  t+=`%0ASubtotal: ${money(subtotal())}%0A`;
-  t+=`Entrega: ${entrega.modo}`;
+  t+=`%0ASubtotal: ${money(subtotal())}%0AEntrega: ${entrega.modo}`;
   if(entrega.modo==='Domicilio'){t+=` — ${entrega.zona} (envío ${entrega.fee!=null?money(entrega.fee):'a confirmar'})%0ADirección: ${entrega.dir}`;
     if(entrega.geo)t+=`%0AUbicación: https://maps.google.com/?q=${entrega.geo.lat},${entrega.geo.lng}`;}
   else t+=` en ${DIR_RECOGER}`;
@@ -352,7 +350,6 @@ function enviar(){
   if(entrega.hora)t+=`%0AHora: ${entrega.hora}`;
   window.open(`https://wa.me/${WA_MAMA}?text=${t}`,'_blank');
 }
-
 function goStep(n){step=n;render();}
 barBtn.onclick=()=>{if(step<4){step++;render();}};
 render();
